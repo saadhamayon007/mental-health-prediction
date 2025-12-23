@@ -15,11 +15,27 @@ This project aims to create a robust and user-friendly frontend for the Early Me
 - Python (v3.8 or higher)
 - Git
 
-### Setup
-1. **Clone the repository**
+### Backend Setup
+1. **Navigate to the API directory**
    ```bash
-   git clone https://github.com/saadhamayon007/mental-health-prediction.git
-   cd mental-health-prediction
+   cd api
+   ```
+
+2. **Install Python Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Start the Backend Server**
+   ```bash
+   python index.py
+   ```
+   The server will start at `http://localhost:8000`.
+
+### Frontend Setup
+1. **Navigate to the root directory** (if not already there)
+   ```bash
+   cd ..
    ```
 
 2. **Install Frontend Dependencies**
@@ -44,4 +60,5 @@ This project is developed and maintained by a collaborative team dedicated to le
 
 ## Tech Stack
 - **Frontend**: Next.js, React, Tailwind CSS
-- **Model Integration**: Python/FastAPI (Backend)
+- **Backend**: Python, FastAPI
+- **Model Integration**: Deep Learning with TensorFlow/Keras (planned)

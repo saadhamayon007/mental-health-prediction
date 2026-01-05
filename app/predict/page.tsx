@@ -1,8 +1,10 @@
 import PredictionForm from '@/components/PredictionForm';
+import HistoryTable from '@/components/HistoryTable';
+import ModelExplanation from '@/components/ModelExplanation';
 
 export default function PredictionPage() {
     return (
-        <main className="flex min-h-screen flex-col items-center p-4 pt-24 md:p-24 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+        <main className="flex min-h-screen flex-col items-center p-4 pt-24 md:p-24 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 overflow-x-hidden">
             <div className="z-10 w-full max-w-4xl items-center justify-between font-mono text-sm animate-in fade-in zoom-in duration-500">
                 <div className="mb-8 text-center">
                     <h1 className="text-4xl font-black text-white mb-2 drop-shadow-md">
@@ -14,6 +16,10 @@ export default function PredictionPage() {
                 </div>
 
                 <PredictionForm />
+
+                <HistoryTable />
+
+                <ModelExplanation />
             </div>
         </main>
     );

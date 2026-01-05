@@ -1,6 +1,7 @@
 export interface PredictionInput {
     gender: string;
     age: number;
+    country: string;
     city: string;
     profession: string;
     academic_pressure: number;
@@ -21,12 +22,12 @@ export interface PredictionResult {
     prediction: number;
     probability: number;
     risk_level: string;
+    confidence_score?: number;
 }
 
 export async function predictMentalHealth(data: PredictionInput): Promise<PredictionResult> {
-    // In a real scenario, this matches the hostname/port of the backend
-    // For dev, we assume localhost:8000
-    const response = await fetch('http://localhost:8000/predict', {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const response = await fetch(`${baseUrl}/predict`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

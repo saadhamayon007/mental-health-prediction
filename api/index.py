@@ -62,10 +62,18 @@ def predict(data: PredictionInput):
         raise HTTPException(status_code=500, detail="Model not loaded")
 
     try:
-        # Convert input to DataFrame
-        input_data = pd.DataFrame([data.dict()])
+        # 1. Convert input to DataFrame (Using model_dump() for Pydantic v2)
+        try:
+            input_data = pd.DataFrame([data.model_dump()])
+        except AttributeError:
+            # Fallback for older Pydantic versions
+            input_data = pd.DataFrame([data.dict()])
 
-        # Preprocess
+        # 2. Check if preprocessors are ready
+        if not preprocessors:
+            raise ValueError("AI Preprocessors are not initialized.")
+
+        # 3. Preprocess
         encoders = preprocessors['encoders']
         scaler = preprocessors['scaler']
         categorical_cols = preprocessors['categorical_cols']
@@ -75,28 +83,40 @@ def predict(data: PredictionInput):
         for col in categorical_cols:
             if col in input_data.columns:
                 le = encoders[col]
-                # Handle unseen labels by assigning fallback (0)
                 input_data[col] = input_data[col].apply(lambda x: le.transform([str(x)])[0] if str(x) in le.classes_ else 0)
 
         # Scale numerical
         input_data[numerical_cols] = scaler.transform(input_data[numerical_cols])
 
-        # Predict
-        # MLPClassifier provides predict_proba
+        # 4. Predict
         probabilities = model.predict_proba(input_data)
-        probability = probabilities[0][1] # Probability of class 1 (Depression)
+        probability = float(probabilities[0][1])
         prediction = int(model.predict(input_data)[0])
 
         return {
+            "status": "success",
             "prediction": prediction,
-            "probability": round(float(probability), 4),
+            "probability": round(probability, 4),
             "risk_level": "High" if prediction == 1 else "Low"
         }
 
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        # Send a clear, readable error message to the frontend
+        error_msg = str(e)
+        if "scaler" in error_msg.lower():
+            error_msg = "Data Scaling Error: The numbers entered are outside the expected range."
+        elif "model" in error_msg.lower():
+            error_msg = "AI Model Error: The brain of the app had trouble reading this data."
+        
+        print(f"Prediction Error: {error_msg}")
+        raise HTTPException(
+            status_code=400, 
+            detail={
+                "error": "Prediction Failed",
+                "message": f"Sorry, our AI system hit a snag: {error_msg}",
+                "help": "Please check your inputs and try again."
+            }
+        )
 
 if __name__ == "__main__":
     import uvicorn

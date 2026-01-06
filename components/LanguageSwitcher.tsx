@@ -30,7 +30,11 @@ export default function LanguageSwitcher() {
     return (
         <div className="relative" ref={dropdownRef}>
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                    console.log('🔍 Language button clicked! Current isOpen:', isOpen);
+                    setIsOpen(!isOpen);
+                    console.log('🔍 Setting isOpen to:', !isOpen);
+                }}
                 className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-white font-bold text-sm min-w-[120px]"
             >
                 <span className="text-[10px] opacity-40 uppercase font-black">{currentLang.flag}</span>
@@ -47,22 +51,27 @@ export default function LanguageSwitcher() {
             </button>
 
             {isOpen && (
-                <div className={`absolute top-full mt-2 w-48 bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in duration-200 ${isRTL ? 'left-0' : 'right-0'}`}>
-                    <div className="py-2">
+                <div
+                    className={`absolute top-full mt-2 w-48 bg-white border-4 border-red-500 rounded-2xl shadow-2xl overflow-hidden z-[9999] ${isRTL ? 'left-0' : 'right-0'}`}
+                    style={{ position: 'absolute', zIndex: 99999 }}
+                >
+                    <div className="py-2 bg-white">
+                        <p className="text-black font-bold px-4 py-2">DROPDOWN IS VISIBLE!</p>
                         {languages.map((lang) => (
                             <button
                                 key={lang.code}
                                 onClick={() => {
+                                    console.log('🌍 Language selected:', lang.name);
                                     setLanguage(lang.code);
                                     setIsOpen(false);
                                 }}
-                                className={`w-full flex items-center gap-3 px-5 py-3 hover:bg-white/5 transition-colors text-left ${language === lang.code ? 'text-blue-400 bg-white/5' : 'text-white/70'
+                                className={`w-full flex items-center gap-3 px-5 py-3 hover:bg-gray-100 transition-colors text-left ${language === lang.code ? 'text-blue-600 bg-blue-50' : 'text-gray-900'
                                     }`}
                             >
-                                <span className="text-[10px] opacity-40 uppercase font-black w-6">{lang.flag}</span>
+                                <span className="text-[10px] uppercase font-black w-6">{lang.flag}</span>
                                 <span className={`font-bold text-sm ${lang.code === 'ur' ? 'font-urdu' : ''}`}>{lang.name}</span>
                                 {language === lang.code && (
-                                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-600" />
                                 )}
                             </button>
                         ))}

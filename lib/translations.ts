@@ -9,6 +9,12 @@ export const translations = {
             sign_up: "Sign Up"
         },
         home: {
+            sleep_analysis: {
+                title: "Sleep Pattern Analysis",
+                description: "Your sleep quality is a direct mirror of your mental well-being. Consistent, restorative sleep regulates emotional processing, sharpens cognitive function, and strengthens your resilience against stress and anxiety.",
+                button: "Analyze My Sleep"
+            },
+            hero_title_part1: "AI-Powered",
             title_part1: "Early Mental Health",
             title_part2: "Prediction & Support",
             subtitle: "An advanced AI-driven platform designed to identify early patterns of mental health issues using state-of-the-art Multi-Layer Perceptron (MLP) technology.",
@@ -57,12 +63,30 @@ export const translations = {
                 female: "Female",
                 other: "Other",
                 no_history: "No History of Mental Illness",
-                yes_history: "Family History Present"
+                yes_history: "Family History Present",
+                degrees: {
+                    bs: "BS / Bachelors",
+                    mba: "MBA",
+                    mtech: "M.Tech",
+                    btech: "B.Tech",
+                    phd: "PhD",
+                    other: "Other"
+                },
+                years: {
+                    year1: "Year 1",
+                    year2: "Year 2",
+                    year3: "Year 3",
+                    year4: "Last Year (Year 4+)"
+                }
             },
             select_gender: "Select Gender",
             select_country: "Select Country",
             select_city: "Select City",
             select_country_first: "Select Country First",
+            degree: "Degree / Session",
+            select_degree: "Select Degree (e.g. BS, MBA)",
+            study_year: "Study Year",
+            select_year: "Select Year",
             select_duration: "Select Duration",
             select_habit: "Select Habit",
             select_response: "Select Response",
@@ -108,6 +132,102 @@ export const translations = {
             back_home: "Back to Home",
             check_email: "Check your email!",
             verify_desc: "We've sent a confirmation link to {email}. Please verify your email to continue."
+        },
+        sleep_form: {
+            title: "Sleep Health Assessment",
+            avg_hours: "Average sleep hours per night",
+            quality: "Sleep quality",
+            bedtime: "Bedtime",
+            wakeup: "Wake-up time",
+            disturbances: "Sleep disturbances",
+            tiredness: "Daytime tiredness",
+            placeholder_hours: "e.g., 7",
+            options_quality: {
+                poor: "Poor",
+                average: "Average",
+                good: "Good"
+            },
+            options_yes_no: {
+                yes: "Yes",
+                no: "No"
+            },
+            submit: "Analyze Patterns",
+            report_title_part1: "Sleep",
+            report_title_part2: "Report",
+            risk_level: "Risk Level",
+            input_summary: "Input Summary",
+            avg_hours_label: "Avg. Hours",
+            quality_label: "Quality",
+            explanation_label: "AI Analysis Explanation",
+            suggestions_label: "Improvement Suggestions",
+            download_pdf: "Download Report (PDF)"
+        },
+        chatbot: {
+            title: "Wellness Companion",
+            button_alt: "Chat with AI",
+            welcome: "Hello! I'm your Wellness Companion. How are you feeling today?",
+            placeholder: "Type a message...",
+            sending: "Sending...",
+            error: "I'm having trouble connecting right now. Please try again later.",
+            back_to_me: "Back to Chat",
+            status_online: "Companion Online"
+        },
+        mood_tracker: {
+            title: "Daily Mood Tracker",
+            subtitle: "How are you feeling right now?",
+            save: "Log Mood",
+            history: "Recent Moods",
+            placeholder: "Any notes on why?",
+            success: "Mood logged successfully!",
+            moods: {
+                happy: "Happy",
+                calm: "Calm",
+                stressed: "Stressed",
+                sad: "Sad",
+                anxious: "Anxious",
+                energetic: "Energetic"
+            }
+        },
+        support: {
+            title: "Crisis Support",
+            subtitle: "You're not alone. Help is available 24/7.",
+            emergency_btn: "Emergency Help",
+            call_now: "Call Now",
+            find_helpline: "Find a Helpline",
+            nearby_resources: "Nearby Resources",
+            search_placeholder: "Search by city or service...",
+            helplines: "Helplines",
+            professional_help: "Professional Help",
+            warning: "If you are in immediate danger, call 911 or your local emergency number.",
+            select_country: "Select Country",
+            all_countries: "All Countries",
+            countries: {
+                pakistan: "Pakistan",
+                germany: "Germany",
+                uk: "United Kingdom",
+                us: "United States",
+                global: "Global"
+            },
+            emergency_modal: {
+                title: "Emergency Quick Help",
+                subtitle: "Are you in immediate danger? Please call one of these numbers now.",
+                police: "Police / Emergency",
+                ambulance: "Ambulance",
+                crisis: "Crisis Hotline",
+                close: "Close"
+            },
+            results: {
+                wellness_score: "Wellness Resilience Score",
+                impact_analysis: "Stochastic Impact Analysis",
+                clinical_note: "Clinical Peer-Review Note",
+                reference_id: "Reference ID",
+                timestamp: "Analysis Timestamp",
+                academic: "Academic Load",
+                financial: "Financial Pressure",
+                lifestyle: "Lifestyle & Sleep",
+                download_report: "Download Report",
+                professional_disclaimer: "THIS IS AN AI ASSESSMENT AND DOES NOT CONSTITUTE A MEDICAL DIAGNOSIS."
+            }
         }
     },
     de: {
@@ -120,6 +240,12 @@ export const translations = {
             sign_up: "Registrieren"
         },
         home: {
+            sleep_analysis: {
+                title: "Schlafmuster-Analyse",
+                description: "Ihre Schlafqualität ist ein direkter Spiegel Ihres psychischen Wohlbefindens. Beständiger, erholsamer Schlaf reguliert die emotionale Verarbeitung, schärft die kognitiven Funktionen und stärkt Ihre Widerstandsfähigkeit gegen Stress und Angstzustände.",
+                button: "Meinen Schlaf analysieren"
+            },
+            hero_title_part1: "KI-gestützte",
             title_part1: "Frühzeitige Psychische",
             title_part2: "Vorhersage & Unterstützung",
             subtitle: "Eine fortschrittliche KI-gesteuerte Plattform zur Identifizierung früher Muster psychischer Probleme mit modernster Multi-Layer-Perceptron (MLP)-Technologie.",
@@ -168,12 +294,30 @@ export const translations = {
                 female: "Weiblich",
                 other: "Anders",
                 no_history: "Keine psychischen Erkrankungen in der Familie",
-                yes_history: "Familiengeschichte vorhanden"
+                yes_history: "Familiengeschichte vorhanden",
+                degrees: {
+                    bs: "BS / Bachelor",
+                    mba: "MBA",
+                    mtech: "M.Tech",
+                    btech: "B.Tech",
+                    phd: "PhD",
+                    other: "Andere"
+                },
+                years: {
+                    year1: "Jahr 1",
+                    year2: "Jahr 2",
+                    year3: "Jahr 3",
+                    year4: "Letztes Jahr (Jahr 4+)"
+                }
             },
             select_gender: "Geschlecht auswählen",
             select_country: "Land auswählen",
             select_city: "Stadt auswählen",
             select_country_first: "Zuerst Land wählen",
+            degree: "Abschluss / Sitzung",
+            select_degree: "Abschluss wählen (z.B. BS, MBA)",
+            study_year: "Studienjahr",
+            select_year: "Jahr auswählen",
             select_duration: "Dauer auswählen",
             select_habit: "Gewohnheit auswählen",
             select_response: "Antwort auswählen",
@@ -218,7 +362,103 @@ export const translations = {
             go_to_login: "Zum Login",
             back_home: "Zurück zur Startseite",
             check_email: "Überprüfen Sie Ihre E-Mails!",
-            verify_desc: "Wir haben einen Bestätigungslink an {email} gesendet. Bitte bestätigen Sie Ihre E-Mail."
+            verify_desc: "Wir haben einen Bestätigungslink an {email} gesendet. Bitte bestätigen Sie Ihre E-Mails."
+        },
+        sleep_form: {
+            title: "Schlafgesundheits-Bewertung",
+            avg_hours: "Durchschnittliche Schlafstunden pro Nacht",
+            quality: "Schlafqualität",
+            bedtime: "Schlafenszeit",
+            wakeup: "Aufwachzeit",
+            disturbances: "Schlafstörungen",
+            tiredness: "Müdigkeit am Tag",
+            placeholder_hours: "z.B. 7",
+            options_quality: {
+                poor: "Schlecht",
+                average: "Durchschnittlich",
+                good: "Gut"
+            },
+            options_yes_no: {
+                yes: "Ja",
+                no: "Nein"
+            },
+            submit: "Muster analysieren",
+            report_title_part1: "Schlaf",
+            report_title_part2: "Bericht",
+            risk_level: "Risikostufe",
+            input_summary: "Eingabenzusammenfassung",
+            avg_hours_label: "Durchschn. Stunden",
+            quality_label: "Qualität",
+            explanation_label: "KI-Analyse Erklärung",
+            suggestions_label: "Verbesserungsvorschläge",
+            download_pdf: "Bericht herunterladen (PDF)"
+        },
+        chatbot: {
+            title: "Wellness-Begleiter",
+            button_alt: "Mit KI chatten",
+            welcome: "Hallo! Ich bin Ihr Wellness-Begleiter. Wie fühlen Sie sich heute?",
+            placeholder: "Nachricht eingeben...",
+            sending: "Senden...",
+            error: "Ich habe gerade Verbindungsprobleme. Bitte versuchen Sie es später noch einmal.",
+            back_to_me: "Zurück zum Chat",
+            status_online: "Begleiter Online"
+        },
+        mood_tracker: {
+            title: "Täglicher Stimmungs-Tracker",
+            subtitle: "Wie fühlst du dich gerade?",
+            save: "Stimmung protokollieren",
+            history: "Aktuelle Stimmungen",
+            placeholder: "Notizen zum Warum?",
+            success: "Stimmung erfolgreich gespeichert!",
+            moods: {
+                happy: "Glücklich",
+                calm: "Ruhig",
+                stressed: "Gestresst",
+                sad: "Traurig",
+                anxious: "Ängstlich",
+                energetic: "Energetisch"
+            }
+        },
+        support: {
+            title: "Krisenhilfe",
+            subtitle: "Du bist nicht allein. Hilfe ist rund um die Uhr verfügbar.",
+            emergency_btn: "Notfallhilfe",
+            call_now: "Jetzt anrufen",
+            find_helpline: "Hilfetelefon finden",
+            nearby_resources: "Ressourcen in der Nähe",
+            search_placeholder: "Suche nach Stadt oder Dienstleistung...",
+            helplines: "Notrufnummern",
+            professional_help: "Professionelle Hilfe",
+            warning: "Wenn Sie sich in unmittelbarer Gefahr befinden, rufen Sie die 112 oder Ihre lokale Notrufnummer an.",
+            select_country: "Land auswählen",
+            all_countries: "Alle Länder",
+            countries: {
+                pakistan: "Pakistan",
+                germany: "Deutschland",
+                uk: "Vereinigtes Königreich",
+                us: "Vereinigte Staaten",
+                global: "Global"
+            },
+            emergency_modal: {
+                title: "Notfall-Schnellhilfe",
+                subtitle: "Sind Sie in unmittelbarer Gefahr? Bitte rufen Sie jetzt eine dieser Nummern an.",
+                police: "Polizei / Notruf",
+                ambulance: "Krankenwagen",
+                crisis: "Krisentelefon",
+                close: "Schließen"
+            },
+            results: {
+                wellness_score: "Wellness-Resilienz-Score",
+                impact_analysis: "Stochastische Impact-Analyse",
+                clinical_note: "Klinischer Peer-Review-Hinweis",
+                reference_id: "Referenz-ID",
+                timestamp: "Zeitstempel der Analyse",
+                academic: "Akademische Belastung",
+                financial: "Finanzieller Druck",
+                lifestyle: "Lebensstil & Schlaf",
+                download_report: "Bericht herunterladen",
+                professional_disclaimer: "DIES IST EINE KI-BEWERTUNG UND STELLT KEINE MEDIZINISCHE DIAGNOSE DAR."
+            }
         }
     },
     ur: {
@@ -231,6 +471,12 @@ export const translations = {
             sign_up: "سائن اپ"
         },
         home: {
+            sleep_analysis: {
+                title: "نیند کے پیٹرن کا تجزیہ",
+                description: "آپ کی نیند کا معیار آپ کی ذہنی تندرستی کا براہ راست آئینہ دار ہے۔ مستقل اور پرسکون نیند جذباتی عمل کو منظم کرتی ہے، علمی افعال کو تیز کرتی ہے، اور تناؤ اور بے چینی کے خلاف آپ کی مزاحمت کو مضبوط کرتی ہے۔",
+                button: "میری نیند کا تجزیہ کریں"
+            },
+            hero_title_part1: "AI سے لیس",
             title_part1: "دماغی صحت کی ",
             title_part2: "پیش گوئی اور تعاون",
             subtitle: "ایک جدید AI پر مبنی پلیٹ فارم جو جدید ترین ملٹی لیئر پرسیپٹرون (MLP) ٹیکنالوجی کا استعمال کرتے ہوئے دماغی صحت کے مسائل کے ابتدائی نمونوں کی شناخت کے لیے ڈیزائن کیا گیا ہے۔",
@@ -279,12 +525,30 @@ export const translations = {
                 female: "عورت",
                 other: "دیگر",
                 no_history: "دماغی بیماری کی کوئی تاریخ نہیں",
-                yes_history: "خاندانی تاریخ موجود ہے"
+                yes_history: "خاندانی تاریخ موجود ہے",
+                degrees: {
+                    bs: "بی ایس / بیچلر",
+                    mba: "ایم بی اے",
+                    mtech: "ایم ٹیک",
+                    btech: "بی ٹیک",
+                    phd: "پی ایچ ڈی",
+                    other: "دیگر"
+                },
+                years: {
+                    year1: "پہلا سال",
+                    year2: "دوسرا سال",
+                    year3: "تیسرا سال",
+                    year4: "آخری سال (چوتھا سال+)"
+                }
             },
             select_gender: "جنس منتخب کریں",
             select_country: "ملک منتخب کریں",
             select_city: "شہر منتخب کریں",
             select_country_first: "پہلے ملک منتخب کریں",
+            degree: "ڈگری / سیشن",
+            select_degree: "ڈگری منتخب کریں (مثلاً BS, MBA)",
+            study_year: "تعلیم کا سال",
+            select_year: "سال منتخب کریں",
             select_duration: "دورانیہ منتخب کریں",
             select_habit: "عادت منتخب کریں",
             select_response: "جواب منتخب کریں",
@@ -330,8 +594,104 @@ export const translations = {
             back_home: "ہوم پیج پر واپس",
             check_email: "اپنی ای میل چیک کریں!",
             verify_desc: "ہم نے {email} پر تصدیق کا لنک بھیجا ہے۔ جاری رکھنے کے لیے براہ کرم اپنی ای میل کی تصدیق کریں۔"
+        },
+        sleep_form: {
+            title: "نیند کی صحت کا جائزہ",
+            avg_hours: "فی رات نیند کے اوسط گھنٹے",
+            quality: "نیند کا معیار",
+            bedtime: "سونے کا وقت",
+            wakeup: "جاگنے کا وقت",
+            disturbances: "نیند میں خلل",
+            tiredness: "دن کے وقت تھکن",
+            placeholder_hours: "مثلاً 7",
+            options_quality: {
+                poor: "خراب",
+                average: "اوسط",
+                good: "اچھا"
+            },
+            options_yes_no: {
+                yes: "جی ہاں",
+                no: "جی نہیں"
+            },
+            submit: "پیٹرن کا تجزیہ کریں",
+            report_title_part1: "نیند کی",
+            report_title_part2: "رپورٹ",
+            risk_level: "خطرے کی سطح",
+            input_summary: "ان پٹ کا خلاصہ",
+            avg_hours_label: "اوسط گھنٹے",
+            quality_label: "معیار",
+            explanation_label: "AI تجزیہ کی وضاحت",
+            suggestions_label: "بہتری کے لیے تجاویز",
+            download_pdf: "رپورٹ ڈاؤن لوڈ کریں (PDF)"
+        },
+        chatbot: {
+            title: "فلاح و بہبود کا ساتھی",
+            button_alt: "AI کے ساتھ بات کریں",
+            welcome: "ہیلو! میں آپ کا فلاح و بہبود کا ساتھی ہوں۔ آج آپ کیسا محسوس کر رہے ہیں؟",
+            placeholder: "پیغام ٹائپ کریں...",
+            sending: "بھیجا جا رہا ہے...",
+            error: "مجھے ابھی رابطہ کرنے میں دشواری ہو رہی ہے۔ براہ کرم تھوڑی دیر بعد دوبارہ کوشش کریں۔",
+            back_to_me: "چیٹ پر واپس جائیں",
+            status_online: "ساتھی آن لائن ہے"
+        },
+        mood_tracker: {
+            title: "روزانہ موڈ ٹریکر",
+            subtitle: "آپ ابھی کیسا محسوس کر رہے ہیں؟",
+            save: "موڈ درج کریں",
+            history: "حالیہ موڈز",
+            placeholder: "کیوں محسوس کر رہے ہیں؟",
+            success: "موڈ کامیابی سے محفوظ ہو گیا!",
+            moods: {
+                happy: "خوش",
+                calm: "پرسکون",
+                stressed: "پریشان",
+                sad: "اداس",
+                anxious: "بے چین",
+                energetic: "پرجوش"
+            }
+        },
+        support: {
+            title: "بحرانی مدد",
+            subtitle: "آپ اکیلے نہیں ہیں۔ مدد چوبیس گھنٹے دستیاب ہے۔",
+            emergency_btn: "ہنگامی مدد",
+            call_now: "ابھی کال کریں",
+            find_helpline: "ہیلپ لائن تلاش کریں",
+            nearby_resources: "قریبی وسائل",
+            search_placeholder: "شہر یا سروس کے ذریعے تلاش کریں...",
+            helplines: "ہیلپ لائنز",
+            professional_help: "پیشہ ورانہ مدد",
+            warning: "اگر آپ کسی فوری خطرے میں ہیں تو فوری طور پر ہنگامی نمبر پر کال کریں۔",
+            select_country: "ملک منتخب کریں",
+            all_countries: "تمام ممالک",
+            countries: {
+                pakistan: "پاکستان",
+                germany: "جرمنی",
+                uk: "برطانیہ",
+                us: "امریکہ",
+                global: "عالمی"
+            },
+            emergency_modal: {
+                title: "ہنگامی فوری مدد",
+                subtitle: "کیا آپ کسی فوری خطرے میں ہیں؟ براہ کرم ابھی ان نمبروں میں سے کسی پر کال کریں۔",
+                police: "پولیس / ایمرجنسی",
+                ambulance: "ایمبولینس",
+                crisis: "بحرانی ہیلپ لائن",
+                close: "بند کریں"
+            },
+            results: {
+                wellness_score: "تندرستی کا لچکدار اسکور",
+                impact_analysis: "اثرات کا تجزیاتی جائزہ",
+                clinical_note: "طبی مشاہداتی نوٹ",
+                reference_id: "حوالہ نمبر",
+                timestamp: "تجزیے کا وقت",
+                academic: "تعلیمی بوجھ",
+                financial: "مالی دباؤ",
+                lifestyle: "طرز زندگی اور نیند",
+                download_report: "رپورٹ ڈاؤن لوڈ کریں",
+                professional_disclaimer: "یہ ایک AI تشخیص ہے اور طبی تشخیص کے متبادل نہیں ہے۔"
+            }
         }
-    }
+    },
 };
 
 export type Language = keyof typeof translations;

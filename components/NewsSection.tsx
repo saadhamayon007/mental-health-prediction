@@ -35,33 +35,38 @@ export default function NewsSection({ searchQuery }: NewsSectionProps) {
     );
 
     return (
-        <section className="py-12 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-6">
-            <h2 className="text-3xl font-bold mb-8 text-zinc-800 dark:text-zinc-100 flex items-center gap-3">
-                <span className="text-blue-600">Latest Updates</span> from WHO
+        <section className="py-12">
+            <h2 className="text-3xl md:text-5xl font-black mb-12 text-white flex items-center gap-4 tracking-tighter uppercase">
+                <span className="text-blue-500">World</span> Landscapes
             </h2>
 
             {filteredNews.length > 0 ? (
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {filteredNews.map(news => (
                         <a
                             key={news.id}
                             href={news.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-zinc-100 dark:border-zinc-700 group"
+                            className="glass-card p-10 hover:border-blue-500/30 group relative overflow-hidden"
                         >
-                            <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-2 block">{news.date}</span>
-                            <h3 className="text-lg font-bold text-zinc-800 dark:text-zinc-100 mb-2 group-hover:text-blue-600 transition-colors">
+                            <div className="absolute top-0 right-0 p-6 text-white/5 group-hover:text-blue-500/10 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                </svg>
+                            </div>
+                            <span className="text-[10px] font-black text-blue-400 mb-6 block uppercase tracking-[0.2em]">{news.date}</span>
+                            <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors leading-tight">
                                 {news.title}
                             </h3>
-                            <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3">
+                            <p className="text-sm text-white/40 font-bold uppercase tracking-widest line-clamp-3 leading-relaxed">
                                 {news.summary}
                             </p>
                         </a>
                     ))}
                 </div>
             ) : (
-                <p className="text-center text-zinc-500 py-8">No updates found matching your search.</p>
+                <p className="text-center text-white/20 text-[10px] font-black uppercase tracking-[0.3em] py-16">No information matching extraction criteria</p>
             )}
         </section>
     );

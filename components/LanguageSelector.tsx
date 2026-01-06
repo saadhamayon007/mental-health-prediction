@@ -29,7 +29,7 @@ export default function LanguageSelector() {
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 rounded-lg shadow-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 rounded-lg shadow-xl border border-zinc-200 dark:border-zinc-700 overflow-hidden z-[9999] animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="py-1">
                         {languages.map((lang) => (
                             <button

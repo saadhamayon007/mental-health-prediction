@@ -4,6 +4,61 @@
 
 @layer base {
   body {
-    @apply bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100;
+    @apply bg-zinc-950 text-zinc-100 min-h-screen selection:bg-blue-500/30 selection:text-blue-200;
+    background-image:
+      radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+      radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.2) 0, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0.2) 0, transparent 50%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-2xl transition-all duration-500;
+  }
+
+  .premium-button {
+    @apply relative px-8 py-5 bg-white text-zinc-950 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all duration-300 hover:scale-[1.03] active:scale-95 hover:shadow-[0_0_30px_#ffffff33] flex items-center justify-center gap-3 overflow-hidden cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .premium-button-outline {
+    @apply premium-button bg-transparent text-white border border-white/20 hover:bg-white/5;
+  }
+
+  .premium-input {
+    @apply w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all duration-300 font-bold;
+  }
+}
+
+@layer utilities {
+  .font-urdu {
+    font-family: 'Noto Nastaliq Urdu', serif;
+  }
+
+  .text-glow-blue {
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+  }
+
+  .mesh-gradient {
+    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent);
+  }
+
+  @keyframes pulse-soft {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 4s infinite ease-in-out;
   }
 }

@@ -23,6 +23,9 @@ export interface PredictionResult {
     probability: number;
     risk_level: string;
     confidence_score?: number;
+    message?: string;
+    recommendations?: string[];
+    support_message?: string;
 }
 
 export async function predictMentalHealth(data: PredictionInput): Promise<PredictionResult> {
@@ -38,6 +41,42 @@ export async function predictMentalHealth(data: PredictionInput): Promise<Predic
     if (!response.ok) {
         const errorDetails = await response.text();
         throw new Error(`Prediction failed: ${response.status} ${response.statusText} - ${errorDetails}`);
+    }
+
+    return response.json();
+}
+
+export interface SleepInput {
+    avg_hours: number;
+    quality: string;
+    bedtime: string;
+    wakeup: string;
+    disturbances: string;
+    tiredness: string;
+}
+
+export interface SleepResult {
+    status: string;
+    score: number;
+    result_type: string;
+    risk_level: string;
+    explanation: string;
+    color_theme: string;
+    tips: string[];
+}
+
+export async function analyzeSleepPattern(data: SleepInput): Promise<SleepResult> {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const response = await fetch(`${baseUrl}/analyze-sleep`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error('Sleep analysis failed');
     }
 
     return response.json();

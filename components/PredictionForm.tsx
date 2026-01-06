@@ -15,9 +15,9 @@ const locationData: Record<string, string[]> = {
 };
 
 const stepFieldMapping: Record<number, string[]> = {
-    1: ['age', 'gender', 'country', 'city', 'cgpa'],
+    1: ['age', 'gender', 'country', 'city', 'degree', 'study_year', 'cgpa'],
     2: ['sleep_duration', 'dietary_habits', 'work_study_hours', 'academic_pressure', 'work_pressure'],
-    3: ['study_satisfaction', 'financial_stress', 'family_history']
+    3: ['study_satisfaction', 'financial_stress', 'family_history', 'suicidal_thoughts']
 };
 const sleepDurations = ["Less than 5 hours", "5-6 hours", "7-8 hours", "More than 8 hours"];
 const dietaryHabits = ["Healthy", "Moderate", "Unhealthy"];
@@ -44,11 +44,12 @@ export default function PredictionForm() {
         job_satisfaction: 0,
         sleep_duration: '',
         dietary_habits: '',
-        degree: 'B.Tech',
-        suicidal_thoughts: 'No',
         work_study_hours: 6,
         financial_stress: '' as any,
-        family_history: ''
+        family_history: '',
+        suicidal_thoughts: 'No',
+        degree: '',
+        study_year: ''
     };
 
     const [formData, setFormData] = useState<PredictionInput>(initialFormData);
@@ -139,6 +140,10 @@ export default function PredictionForm() {
         try {
             setLoadingStage(t('predict.analyzing'));
             const res = await predictMentalHealth(formData);
+            console.log('🔍 Backend Response:', res);
+            console.log('📊 Probability:', res.probability);
+            console.log('💬 Message:', res.message);
+            console.log('📝 Recommendations:', res.recommendations);
             setResult(res);
 
             const historyItem = {
@@ -168,7 +173,7 @@ export default function PredictionForm() {
     const nextStep = () => {
         // Validate current step before proceeding
         let stepFields: string[] = [];
-        if (step === 1) stepFields = ['age', 'gender', 'country', 'city', 'cgpa'];
+        if (step === 1) stepFields = ['age', 'gender', 'country', 'city', 'degree', 'study_year', 'cgpa'];
         if (step === 2) stepFields = ['sleep_duration', 'dietary_habits', 'academic_pressure', 'work_pressure'];
 
         let stepValid = true;
@@ -190,14 +195,14 @@ export default function PredictionForm() {
 
     const hasErrors = Object.values(errors).some(err => err !== '');
     const isStepInvalid = () => {
-        if (step === 1) return !formData.age || !formData.gender || !formData.country || !formData.city || errors.age || errors.cgpa;
+        if (step === 1) return !formData.age || !formData.gender || !formData.country || !formData.city || !formData.degree || !formData.study_year || errors.age || errors.cgpa;
         if (step === 2) return !formData.sleep_duration || !formData.dietary_habits || errors.academic_pressure;
-        if (step === 3) return !formData.family_history || errors.financial_stress || errors.study_satisfaction;
+        if (step === 3) return !formData.family_history || !formData.suicidal_thoughts || errors.financial_stress || errors.study_satisfaction;
         return false;
     };
 
     return (
-        <div className="w-full max-w-3xl mx-auto p-1 bg-white/5 dark:bg-zinc-900/50 backdrop-blur-2xl border border-white/10 dark:border-white/5 rounded-[2.5rem] shadow-2xl transition-all overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="glass-card w-full max-w-4xl mx-auto p-1 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <div className="p-8 md:p-10">
                 {/* Header & Reset */}
                 <div className={`flex justify-between items-center mb-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
@@ -247,14 +252,14 @@ export default function PredictionForm() {
                         <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.age')}</label>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.age')}</label>
                                     <input type="number" name="age" value={formData.age} onChange={handleChange}
-                                        className={`w-full px-6 py-4 rounded-2xl bg-white/5 border ${errors.age ? 'border-red-500' : 'border-white/10'} text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold ${isRTL ? 'text-right' : 'text-left'}`} />
+                                        className={`premium-input ${errors.age ? 'border-red-500/50' : ''} ${isRTL ? 'text-right' : 'text-left'}`} />
                                     {errors.age && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.age}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.gender')}</label>
-                                    <select name="gender" value={formData.gender} onChange={handleChange} className={`w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.gender')}</label>
+                                    <select name="gender" value={formData.gender} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
                                         <option value="" disabled>{t('form.select_gender')}</option>
                                         <option value="Male">{t('form.options.male')}</option>
                                         <option value="Female">{t('form.options.female')}</option>
@@ -263,25 +268,49 @@ export default function PredictionForm() {
                                     {errors.gender && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.gender}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.country')}</label>
-                                    <select name="country" value={formData.country} onChange={handleChange} className={`w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.country')}</label>
+                                    <select name="country" value={formData.country} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
                                         <option value="" disabled>{t('form.select_country')}</option>
                                         {Object.keys(locationData).map(c => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                     {errors.country && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.country}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.city')}</label>
-                                    <select name="city" value={formData.city} onChange={handleChange} disabled={!formData.country} className={`w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold [&>option]:text-zinc-900 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.city')}</label>
+                                    <select name="city" value={formData.city} onChange={handleChange} disabled={!formData.country} className={`premium-input [&>option]:text-zinc-900 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${isRTL ? 'text-right' : 'text-left'}`}>
                                         <option value="" disabled>{formData.country ? t('form.select_city') : t('form.select_country_first')}</option>
                                         {formData.country && locationData[formData.country].map(c => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                     {errors.city && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.city}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.cgpa')}</label>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.degree')}</label>
+                                    <select name="degree" value={formData.degree} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                        <option value="" disabled>{t('form.select_degree')}</option>
+                                        <option value="BS">{t('form.options.degrees.bs')}</option>
+                                        <option value="MBA">{t('form.options.degrees.mba')}</option>
+                                        <option value="M.Tech">{t('form.options.degrees.mtech')}</option>
+                                        <option value="B.Tech">{t('form.options.degrees.btech')}</option>
+                                        <option value="PhD">{t('form.options.degrees.phd')}</option>
+                                        <option value="Other">{t('form.options.degrees.other')}</option>
+                                    </select>
+                                    {errors.degree && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.degree}</p>}
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.study_year')}</label>
+                                    <select name="study_year" value={formData.study_year} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                        <option value="" disabled>{t('form.select_year')}</option>
+                                        <option value="1">{t('form.options.years.year1')}</option>
+                                        <option value="2">{t('form.options.years.year2')}</option>
+                                        <option value="3">{t('form.options.years.year3')}</option>
+                                        <option value="4">{t('form.options.years.year4')}</option>
+                                    </select>
+                                    {errors.study_year && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.study_year}</p>}
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.cgpa')}</label>
                                     <input type="number" step="0.1" name="cgpa" value={formData.cgpa} onChange={handleChange} placeholder="e.g. 7.5"
-                                        className={`w-full px-6 py-4 rounded-2xl bg-white/5 border ${errors.cgpa ? 'border-red-500' : 'border-white/10'} text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold ${isRTL ? 'text-right' : 'text-left'}`} />
+                                        className={`premium-input ${errors.cgpa ? 'border-red-500/50' : ''} ${isRTL ? 'text-right' : 'text-left'}`} />
                                     {errors.cgpa && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.cgpa}</p>}
                                 </div>
                             </div>
@@ -292,16 +321,16 @@ export default function PredictionForm() {
                         <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.sleep')}</label>
-                                    <select name="sleep_duration" value={formData.sleep_duration} onChange={handleChange} className={`w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-bold [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.sleep')}</label>
+                                    <select name="sleep_duration" value={formData.sleep_duration} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
                                         <option value="" disabled>{t('form.select_duration')}</option>
                                         {sleepDurations.map(s => <option key={s} value={s}>{s}</option>)}
                                     </select>
                                     {errors.sleep_duration && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.sleep_duration}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.diet')}</label>
-                                    <select name="dietary_habits" value={formData.dietary_habits} onChange={handleChange} className={`w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-bold [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.diet')}</label>
+                                    <select name="dietary_habits" value={formData.dietary_habits} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
                                         <option value="" disabled>{t('form.select_habit')}</option>
                                         {dietaryHabits.map(d => <option key={d} value={d}>{d}</option>)}
                                     </select>
@@ -309,22 +338,31 @@ export default function PredictionForm() {
                                 </div>
                                 <div className="col-span-1 md:col-span-2 space-y-4">
                                     <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                                        <label className={`text-xs font-black text-white/40 uppercase tracking-widest ml-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                        <label className={`text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2 ${isRTL ? 'text-right' : 'text-left'}`}>
                                             {t('form.work_study_hours')}: <span className="text-white">{formData.work_study_hours || 0} Hours</span>
                                         </label>
                                     </div>
-                                    <input type="range" min="0" max="16" name="work_study_hours" value={formData.work_study_hours || 0} onChange={handleChange} className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500 transition-all" />
+                                    <div className="col-span-1 md:col-span-2 space-y-2">
+                                        <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.suicidal_thoughts')}</label>
+                                        <select name="suicidal_thoughts" value={formData.suicidal_thoughts} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                            <option value="" disabled>{t('form.select_response')}</option>
+                                            <option value="No">{t('form.options.no')}</option>
+                                            <option value="Yes">{t('form.options.yes')}</option>
+                                        </select>
+                                        {errors.suicidal_thoughts && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.suicidal_thoughts}</p>}
+                                    </div>
+                                    <input type="range" min="0" max="16" name="work_study_hours" value={formData.work_study_hours || 0} onChange={handleChange} className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-blue-500 transition-all" />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.academic_pressure')}</label>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.academic_pressure')}</label>
                                     <input type="number" min="0" max="5" name="academic_pressure" value={formData.academic_pressure} onChange={handleChange} placeholder="1-5"
-                                        className={`w-full px-6 py-4 rounded-2xl bg-white/5 border ${errors.academic_pressure ? 'border-red-500' : 'border-white/10'} text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-bold ${isRTL ? 'text-right' : 'text-left'}`} />
+                                        className={`premium-input ${errors.academic_pressure ? 'border-red-500/50' : ''} ${isRTL ? 'text-right' : 'text-left'}`} />
                                     {errors.academic_pressure && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.academic_pressure}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.work_pressure')}</label>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.work_pressure')}</label>
                                     <input type="number" min="0" max="5" name="work_pressure" value={formData.work_pressure} onChange={handleChange} placeholder="1-5"
-                                        className={`w-full px-6 py-4 rounded-2xl bg-white/5 border ${errors.work_pressure ? 'border-red-500' : 'border-white/10'} text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-bold ${isRTL ? 'text-right' : 'text-left'}`} />
+                                        className={`premium-input ${errors.work_pressure ? 'border-red-500/50' : ''} ${isRTL ? 'text-right' : 'text-left'}`} />
                                     {errors.work_pressure && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.work_pressure}</p>}
                                 </div>
                             </div>
@@ -335,20 +373,20 @@ export default function PredictionForm() {
                         <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.study_sat')}</label>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.study_sat')}</label>
                                     <input type="number" min="0" max="5" name="study_satisfaction" value={formData.study_satisfaction} onChange={handleChange} placeholder="1-5"
-                                        className={`w-full px-6 py-4 rounded-2xl bg-white/5 border ${errors.study_satisfaction ? 'border-red-500' : 'border-white/10'} text-white focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all font-bold ${isRTL ? 'text-right' : 'text-left'}`} />
+                                        className={`premium-input ${errors.study_satisfaction ? 'border-red-500/50' : ''} ${isRTL ? 'text-right' : 'text-left'}`} />
                                     {errors.study_satisfaction && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.study_satisfaction}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.financial_stress')}</label>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.financial_stress')}</label>
                                     <input type="number" min="0" max="5" name="financial_stress" value={formData.financial_stress} onChange={handleChange} placeholder="1-5"
-                                        className={`w-full px-6 py-4 rounded-2xl bg-white/5 border ${errors.financial_stress ? 'border-red-500' : 'border-white/10'} text-white focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all font-bold ${isRTL ? 'text-right' : 'text-left'}`} />
+                                        className={`premium-input ${errors.financial_stress ? 'border-red-500/50' : ''} ${isRTL ? 'text-right' : 'text-left'}`} />
                                     {errors.financial_stress && <p className={`text-[10px] text-red-400 mt-1 font-bold ${isRTL ? 'mr-1' : 'ml-1'}`}>{errors.financial_stress}</p>}
                                 </div>
                                 <div className="col-span-1 md:col-span-2 space-y-2">
-                                    <label className="text-xs font-black text-white/40 uppercase tracking-widest ml-1">{t('form.family_history')}</label>
-                                    <select name="family_history" value={formData.family_history} onChange={handleChange} className={`w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all font-bold [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] ml-2">{t('form.family_history')}</label>
+                                    <select name="family_history" value={formData.family_history} onChange={handleChange} className={`premium-input [&>option]:text-zinc-900 cursor-pointer ${isRTL ? 'text-right' : 'text-left'}`}>
                                         <option value="" disabled>{t('form.select_response')}</option>
                                         <option value="No">{t('form.options.no_history')}</option>
                                         <option value="Yes">{t('form.options.yes_history')}</option>
@@ -375,10 +413,10 @@ export default function PredictionForm() {
                                 type="button"
                                 onClick={prevStep}
                                 disabled={loading}
-                                className={`px-8 py-4 rounded-2xl border border-white/10 text-white hover:bg-white/5 transition-all font-bold text-sm flex items-center gap-2 group disabled:opacity-30 disabled:cursor-not-allowed ${isRTL ? 'flex-row-reverse' : ''}`}
+                                className="premium-button-outline !px-10"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 group-hover:-translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover:translate-x-1' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 ${isRTL ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                                 </svg>
                                 {t('predict.back')}
                             </button>
@@ -389,27 +427,26 @@ export default function PredictionForm() {
                                 type="button"
                                 onClick={nextStep}
                                 disabled={!!isStepInvalid()}
-                                className={`px-10 py-4 rounded-2xl bg-white text-zinc-950 hover:bg-blue-50 transition-all font-black text-sm shadow-xl shadow-blue-500/5 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 group active:scale-95 ${isRTL ? 'flex-row-reverse' : ''}`}
+                                className="premium-button !px-12"
                             >
                                 {t('predict.continue')}
-                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 ${isRTL ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </button>
                         ) : (
                             <button
                                 type="submit"
                                 disabled={loading || hasErrors}
-                                className={`px-10 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white transition-all font-black text-sm shadow-2xl shadow-purple-500/30 disabled:opacity-50 flex items-center gap-3 overflow-hidden active:scale-95 relative group ${isRTL ? 'flex-row-reverse' : ''}`}
+                                className="premium-button !bg-blue-600 !text-white !px-12"
                             >
                                 {loading && (
-                                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <svg className="animate-spin h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
                                 )}
                                 {loading ? loadingStage : t('predict.predict')}
-                                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                             </button>
                         )}
                     </div>

@@ -79,20 +79,33 @@ def train():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     print("Building model (MLPClassifier)...")
-    # Simulating the notebook architecture: 64 -> 32 -> 16 -> 1
-    model = MLPClassifier(hidden_layer_sizes=(64, 32, 16),
-                          activation='relu',
-                          solver='adam',
-                          max_iter=500,
-                          random_state=42,
-                          verbose=True)
+    # Enhanced configuration for better probability predictions
+    model = MLPClassifier(
+        hidden_layer_sizes=(128, 64, 32),  # Deeper network
+        activation='relu',
+        solver='adam',
+        alpha=0.0001,  # L2 regularization
+        learning_rate='adaptive',
+        max_iter=1000,  # More iterations
+        early_stopping=True,  # Prevent overfitting
+        validation_fraction=0.1,
+        random_state=42,
+        verbose=True
+    )
 
     print("Training model...")
     model.fit(X_train, y_train)
 
     predictions = model.predict(X_test)
+    probabilities = model.predict_proba(X_test)
     accuracy = accuracy_score(y_test, predictions)
+    
+    print(f"\n{'='*50}")
     print(f"Test Accuracy: {accuracy:.4f}")
+    print(f"Sample Probabilities (first 5):")
+    for i in range(min(5, len(probabilities))):
+        print(f"  Sample {i+1}: Class 0: {probabilities[i][0]:.4f}, Class 1: {probabilities[i][1]:.4f} | Actual: {y_test.iloc[i]}")
+    print(f"{'='*50}\n")
 
     # Save artifacts
     print("Saving artifacts...")
@@ -105,7 +118,9 @@ def train():
         'numerical_cols': numerical_cols
     }
     joblib.dump(preprocessors, PREPROCESSOR_PATH)
-    print("Done!")
+    print("✅ Model training complete! Files saved:")
+    print(f"   - {MODEL_PATH}")
+    print(f"   - {PREPROCESSOR_PATH}")
 
 if __name__ == "__main__":
     train()
